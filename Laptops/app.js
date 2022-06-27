@@ -73,7 +73,7 @@ const detectarBotones = (data) => {
       //Aqui estamos haciendo nuestra condicion donde mencionamos que si ya existe el producto no lo duplique, únicamente incremente la cantidad
       if (carrito.hasOwnProperty(producto.id)) {
         // console.log("existe");
-        producto.cantidad = carrito[producto.id].cantidad + 1
+        producto.cantidad = carrito[producto.id].cantidad + 1;
       }
       //Indicamos su índice y agregamos los elemento del producto, en pocas palabras estamos reemplazando el elemento ya creado y solo se le agrega la cantidad inicializada
       carrito[producto.id] = { ...producto };
@@ -87,11 +87,10 @@ const detectarBotones = (data) => {
 // Mostrar Carrito-1
 const pAgregados = document.querySelector("#pAgregados");
 const mostrarCarrito = () => {
-
   pAgregados.innerHTML = " ";
 
   const template = document.querySelector("#template-carrito").content;
-  const fragment = document.createDocumentFragment()
+  const fragment = document.createDocumentFragment();
 
   //Aqui estamos transformando nuestra lista de objetos en un ARRAY
   Object.values(carrito).forEach((producto) => {
@@ -100,23 +99,22 @@ const mostrarCarrito = () => {
     template.querySelector(".card-img-top").setAttribute("src", producto.img);
     template.querySelectorAll("td")[1].textContent = producto.cantidad;
     // template.querySelectorAll("td")[1].textContent = producto.nombre
-    template.querySelectorAll(
-      "td"
-    )[3].textContent = `$${(producto.pDescuento * producto.cantidad).toLocaleString()} MXN`;
-
+    template.querySelectorAll("td")[3].textContent = `$${(
+      producto.pDescuento * producto.cantidad
+    ).toLocaleString()} MXN`;
 
     //botones
     template.querySelector(".incrementar").dataset.id = producto.id;
     template.querySelector(".decrementar").dataset.id = producto.id;
 
-    const clone = template.cloneNode(true)
-    fragment.appendChild(clone)
+    const clone = template.cloneNode(true);
+    fragment.appendChild(clone);
   });
 
   pAgregados.appendChild(fragment);
 
-  mostrarFooterCarrito()
-  accionBotones()
+  mostrarFooterCarrito();
+  accionBotones();
 };
 
 // Mostrar Carrito-2
@@ -151,27 +149,51 @@ const mostrarCarrito2 = () => {
   accionBotones();
 };
 
-
-
 const footerCarrito = document.querySelector("#footerCarrito");
+const contadorCarrito = document.querySelector("#contadorCar");
+const botonesProcesar = document.querySelector(".botonesProcesar");
 //Esta función nos muestra el footer del carrito (cantidad total y costo total)
 const mostrarFooterCarrito = () => {
-
-  footerCarrito.innerHTML = " "
+  footerCarrito.innerHTML = " ";
+  contadorCarrito.innerHTML = " ";
+  // botonesProcesar.innerHTML = " "
 
   if (Object.keys(carrito).length === 0) {
-    footerCarrito.innerHTML = `
-    <th scope="row" colspan="5">Carrito vacío</th>
+    pAgregados.innerHTML = `
+    <th scope="row" colspan="4">Carrito vacío</th>
     `;
 
-    return
+    contadorCarrito.innerHTML = `
+      <button
+                    id="open"
+                    class="nav-link text-body btn btn-primary"
+                    type="button"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasRight"
+                    aria-controls="offcanvasRight"
+                  >
+                    <i class="bi bi-cart fa-lg"></i
+                    ><span id="contador-carrito">0</span>
+    `;
+
+    return;
   }
 
   const template = document.querySelector("#templateFooterCarrito").content;
   const fragment = document.createDocumentFragment();
 
+  const template2 = document.querySelector("#templateContador").content;
+  const fragment2 = document.createDocumentFragment();
+
   //En este apartado necesitaremos sumar la cantidad total de los productos y el costo total
-  const cTotal = Object.values(carrito).reduce((acc, { cantidad }) => acc + cantidad, 0)
+  const cTotal = Object.values(carrito).reduce(
+    (acc, { cantidad }) => acc + cantidad,
+    0
+  );
+  const cTotal2 = Object.values(carrito).reduce(
+    (acc, { cantidad }) => acc + cantidad,
+    0
+  );
   const pTotal = Object.values(carrito).reduce(
     (acc, { cantidad, pDescuento }) => acc + cantidad * pDescuento,
     0
@@ -179,21 +201,30 @@ const mostrarFooterCarrito = () => {
   // console.log(pTotal)
 
   template.querySelectorAll("th")[1].textContent = cTotal;
-  template.querySelectorAll("th")[3].textContent = `$${pTotal.toLocaleString()} MXN`;
+  template.querySelectorAll(
+    "th"
+  )[3].textContent = `$${pTotal.toLocaleString()} MXN`;
 
   const clone = template.cloneNode(true);
   fragment.appendChild(clone);
 
   footerCarrito.appendChild(fragment);
 
+  //Este apartado sirve para el contador del carrito
+  template2.querySelector("#contador-carrito").textContent = cTotal2;
+
+  const clone2 = template2.cloneNode(true);
+  fragment2.appendChild(clone2);
+
+  contadorCarrito.appendChild(fragment2); //Aqui termina la parte del Contador Carrito
+
   const boton = document.querySelector("#vaciar-carrito");
   boton.addEventListener("click", () => {
-    carrito = {}
+    carrito = {};
 
-    mostrarCarrito()
-
-  })
-}
+    mostrarCarrito();
+  });
+};
 
 const mostrarFooterCarrito2 = () => {
   footerCarrito.innerHTML = " ";
@@ -242,15 +273,15 @@ accionBotones = () => {
   const botonesAgregar = document.querySelectorAll(".incrementar");
   const botonesEliminar = document.querySelectorAll(".decrementar");
 
-  botonesAgregar.forEach(btn => {
+  botonesAgregar.forEach((btn) => {
     btn.addEventListener("click", () => {
       // console.log("agregando...")
-      const producto = carrito[btn.dataset.id]
-      producto.cantidad ++
-      carrito[btn.dataset.id] = { ...producto }
-      mostrarCarrito()
-    })
-  })
+      const producto = carrito[btn.dataset.id];
+      producto.cantidad++;
+      carrito[btn.dataset.id] = { ...producto };
+      mostrarCarrito();
+    });
+  });
 
   botonesEliminar.forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -266,4 +297,4 @@ accionBotones = () => {
       }
     });
   });
-}
+};

@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @font-face {
   font-family: "Go Medium";
   src: url("//db.onlinewebfonts.com/t/047f4505be97c463bc637f1767d274d6.eot");
@@ -745,6 +746,13 @@ main .carritoCompras .carrito-contenedor table tbody tr td .decrementar:hover {
   background-color: rgb(179, 6, 6);
 }
 main .carritoCompras .carrito-contenedor table tbody th {
+  color: #76b900;
+  font-family: "DINPro-Regular";
+  padding-bottom: 10px;
+  font-size: 15px;
+  line-height: 1em;
+}
+main .carritoCompras .carrito-contenedor table tbody .carritoVacío {
   color: #76b900;
   font-family: "DINPro-Regular";
   padding-bottom: 10px;

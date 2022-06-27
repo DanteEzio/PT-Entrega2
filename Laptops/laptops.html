@@ -118,12 +118,16 @@
                 </li>
               </ul>
               <!-- Iconos -->
-              <ul class="navbar-nav navbar-icons flex-row flex-wrap pt-1">
+              <ul
+                class="navbar-nav navbar-icons flex-row flex-wrap pt-1"
+              >
                 <li class="nav-item">
-                  <a class="nav-link" href=""><i class="bi bi-search fa-lg"></i></a>
+                  <a class="nav-link" href=""
+                    ><i class="bi bi-search fa-lg"></i
+                  ></a>
                 </li>
                 <!-- Carrito de Compras -->
-                <li class="nav-item">
+                <li class="nav-item" id="contadorCar">
                   <button
                     id="open"
                     class="nav-link text-body btn btn-primary"
@@ -871,6 +875,20 @@
       <th class="pt-2">Cantidad</th>
       <th></th>
       <th>Precio-Total</th>
+    </template>
+
+    <!-- Template Contador Carrito -->
+    <template id="templateContador">
+      <button
+        id="open"
+        class="nav-link text-body btn btn-primary"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasRight"
+        aria-controls="offcanvasRight"
+      >
+        <i class="bi bi-cart fa-lg"></i><span id="contador-carrito">0</span>
+      </button>
     </template>
 
     <!-- *** Código JavaScript *** -->
