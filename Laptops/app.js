@@ -79,11 +79,15 @@ const detectarBotones = (data) => {
       producto.cantidad = 1;
 
       //Aqui estamos haciendo nuestra condicion donde mencionamos que si ya existe el producto no lo duplique, únicamente incremente la cantidad
-      if (carrito.hasOwnProperty(producto.id)) {
-        // console.log("existe");
-        producto.cantidad = carrito[producto.id].cantidad + 1;
-      }
-      //Indicamos su índice y agregamos los elemento del producto, en pocas palabras estamos reemplazando el elemento ya creado y solo se le agrega la cantidad inicializada
+      // if (carrito.hasOwnProperty(producto.id)) {
+      //   // console.log("existe");
+      //   producto.cantidad = carrito[producto.id].cantidad + 1;
+      // }
+      // *** Esto es lo mismo que lo de arriba solo que con operador TERNARIO ***
+      carrito.hasOwnProperty(producto.id)
+        ? (producto.cantidad = carrito[producto.id].cantidad + 1)
+        : false;
+      //Indicamos su índice y agregamos los elemento del producto, en pocas palabras estamos reemplazando el elemento ya creado y solo se le agrega la cantidad inicializada (*** Aqui estamos utilizando spread ***)
       carrito[producto.id] = { ...producto };
       // console.log(carrito);
 
@@ -166,7 +170,6 @@ const botonesProcesar = document.querySelector(".botonesProcesar");
 const mostrarFooterCarrito = () => {
   footerCarrito.innerHTML = " ";
   contadorCarrito.innerHTML = " ";
-  // botonesProcesar.innerHTML = " "
 
   if (Object.keys(carrito).length === 0) {
     pAgregados.innerHTML = `
@@ -243,15 +246,6 @@ const mostrarFooterCarrito = () => {
 
     mostrarCarrito();
   });
-
-  const boton2 = document.querySelector("#procesar-carrito");
-  boton2.addEventListener("click", () => {
-    alert(
-      "Felicidades!! Su Compra se realizo de manera exitosa, pronto nos pondremos en contacto con usted"
-    );
-
-    mostrarCarrito();
-  });
 };
 
 const mostrarFooterCarrito2 = () => {
@@ -289,7 +283,6 @@ const mostrarFooterCarrito2 = () => {
 
   footerCarrito.appendChild(fragment);
 
-  //Aquí estamos vacíando el carrito
   const boton = document.querySelector("#vaciar-carrito");
   boton.addEventListener("click", () => {
     carrito = {};
@@ -307,6 +300,7 @@ accionBotones = () => {
       // console.log("agregando...")
       const producto = carrito[btn.dataset.id];
       producto.cantidad++;
+      // (*** Aqui estamos utilizando spread ***)
       carrito[btn.dataset.id] = { ...producto };
       mostrarCarrito();
     });
@@ -321,6 +315,7 @@ accionBotones = () => {
         delete carrito[btn.dataset.id];
         mostrarCarrito();
       } else {
+        // (*** Aqui estamos utilizando spread ***)
         carrito[btn.dataset.id] = { ...producto };
         mostrarCarrito();
       }
@@ -328,14 +323,14 @@ accionBotones = () => {
   });
 };
 
-
 procesarCompra = () => {
   const boton2 = document.querySelector("#procesar-carrito");
   boton2.addEventListener("click", () => {
-    carrito = { };
     alert(
       "Felicidades!! Su Compra se realizo de manera exitosa, pronto nos pondremos en contacto con usted"
     );
+
+    carrito = {};
 
     mostrarCarrito();
   });
