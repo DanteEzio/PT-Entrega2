@@ -1,7 +1,14 @@
+//Aqui se cargan los productos y se lee nuestro sitio web
 document.addEventListener("DOMContentLoaded", () => {
   fetchData();
+  //Aqui estamos generando una condición para poder tener permanencia de información al recargar la página y que no se pierdan nuestros objetos del carrito
+  if (localStorage.getItem("carrito")) {
+    carrito = JSON.parse(localStorage.getItem("carrito"))
+    mostrarCarrito();
+  }
 });
 
+// Esta función nos ayuda a poder leer nuestro archivo JSON
 const fetchData = async () => {
   try {
     const res = await fetch("api.json");
@@ -63,9 +70,10 @@ const detectarBotones = (data) => {
 
   botones.forEach((btn) => {
     btn.addEventListener("click", () => {
-      console.log(`Se agrego ${btn.id} al carrito`);
+      // console.log(`Se selecciono ${btn.id}`);
       const producto = data.find((item) => `boton${item.id}` == btn.id);
       // console.log(producto)
+      alert(`Se agrego ${producto.nombre} al carrito`);
 
       // Aquí estamos agregando el atributo cantidad, que sería la cantidad de productos que estaría comprando el usuario
       producto.cantidad = 1;
@@ -115,6 +123,8 @@ const mostrarCarrito = () => {
 
   mostrarFooterCarrito();
   accionBotones();
+
+  localStorage.setItem("carrito", JSON.stringify(carrito));
 };
 
 // Mostrar Carrito-2
@@ -182,6 +192,7 @@ const mostrarFooterCarrito = () => {
   const template = document.querySelector("#templateFooterCarrito").content;
   const fragment = document.createDocumentFragment();
 
+  // Este segundo apartado corresponde al contador del carrito
   const template2 = document.querySelector("#templateContador").content;
   const fragment2 = document.createDocumentFragment();
 
