@@ -289,6 +289,7 @@ const mostrarFooterCarrito2 = () => {
 
   footerCarrito.appendChild(fragment);
 
+  //Aquí estamos vacíando el carrito
   const boton = document.querySelector("#vaciar-carrito");
   boton.addEventListener("click", () => {
     carrito = {};
@@ -331,11 +332,10 @@ accionBotones = () => {
 procesarCompra = () => {
   const boton2 = document.querySelector("#procesar-carrito");
   boton2.addEventListener("click", () => {
+    carrito = { };
     alert(
       "Felicidades!! Su Compra se realizo de manera exitosa, pronto nos pondremos en contacto con usted"
     );
-
-    carrito = {};
 
     mostrarCarrito();
   });
