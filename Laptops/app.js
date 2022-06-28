@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   fetchData();
   //Aqui estamos generando una condición para poder tener permanencia de información al recargar la página y que no se pierdan nuestros objetos del carrito
   if (localStorage.getItem("carrito")) {
-    carrito = JSON.parse(localStorage.getItem("carrito"))
+    carrito = JSON.parse(localStorage.getItem("carrito"));
     mostrarCarrito();
   }
 });
@@ -186,8 +186,16 @@ const mostrarFooterCarrito = () => {
                     ><span id="contador-carrito">0</span>
     `;
 
+    // Aquí estamos ocultando los botones ("vaciar y procesar")
+    document.getElementById("vaciar-carrito").style.display = "none";
+    document.getElementById("procesar-carrito").style.display = "none";
+
     return;
   }
+
+  //// Aquí estamos mostrando nuevamente los botones ("vaciar y procesar")
+  document.getElementById("vaciar-carrito").style.display = "";
+  document.getElementById("procesar-carrito").style.display = "";
 
   const template = document.querySelector("#templateFooterCarrito").content;
   const fragment = document.createDocumentFragment();
@@ -232,6 +240,15 @@ const mostrarFooterCarrito = () => {
   const boton = document.querySelector("#vaciar-carrito");
   boton.addEventListener("click", () => {
     carrito = {};
+
+    mostrarCarrito();
+  });
+
+  const boton2 = document.querySelector("#procesar-carrito");
+  boton2.addEventListener("click", () => {
+    alert(
+      "Felicidades!! Su Compra se realizo de manera exitosa, pronto nos pondremos en contacto con usted"
+    );
 
     mostrarCarrito();
   });
@@ -309,3 +326,19 @@ accionBotones = () => {
     });
   });
 };
+
+
+procesarCompra = () => {
+  const boton2 = document.querySelector("#procesar-carrito");
+  boton2.addEventListener("click", () => {
+    alert(
+      "Felicidades!! Su Compra se realizo de manera exitosa, pronto nos pondremos en contacto con usted"
+    );
+
+    carrito = {};
+
+    mostrarCarrito();
+  });
+};
+
+procesarCompra();
